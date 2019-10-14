@@ -39,13 +39,39 @@ Meteor.methods({
   async setLemlistFlag(id, val) {
     let conn = await connectionHandler.getInstance();
     let status  = val ? 'Working - Contacted' : 'Closed - Not Converted';
+
+    let rowLead = await conn.sobject('Lead').retrieve(id , function(err, ret) {
+      if (err || !ret.success) { return console.error( err, JSON.stringify(ret))}
+    });
+
     await conn.sobject('Lead')
-      .find({ 'Id' : id })
-      .update({'Lemlist__c' : val, 'Status' : status }, function(err, ret) {
-        if (err || !ret.success) { return console.error( err, JSON.stringify(ret))}
-      });
+    .find({ 'Id' : id })
+    .update({'Lemlist__c' : val, 'Status' : status }, function(err, ret) {
+      if (err || !ret.success) { return console.error( err, JSON.stringify(ret))}
+    });
+
+    // insert activity
+    let subject = `lead ${rowLead.Name} opened the email ${rowLead.Email} of the campaign YYY`
+    await Meteor.call('updateAcivity', subject); 
+    // refresh local list
     await Meteor.call('getSingleLead', id);        
       // // update whole collection
       // await Meteor.call('getLeads');
+  },
+
+  async updateAcivity(subject, ) {
+    let conn = await connectionHandler.getInstance();
+
+    let task = {
+      'OwnerId' : conn.userInfo.id,
+      'Status' : "Completed",
+      'Subject': subject,
+      'Priority': "Normal",
+      'WhatId': "7013X000000jUUTQA2"
+    }
+
+    await conn.sobject("Task").create(task, function(err, ret) {
+      if (err || !ret.success) { return console.error( err, JSON.stringify(ret))}
+    });
   },
 });
