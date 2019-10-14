@@ -1,0 +1,44 @@
+<head>
+  <title>meteor_jsforce</title>
+</head>
+
+<body>
+  {{> hello}}
+  {{> info}}
+</body>
+
+<template name="hello">
+
+</template>
+
+<template name="info">
+  <button class="getLeads">Get Leads</button>
+  <br><br>
+  {{#if leadsExists}}
+    <ul  class="row">
+        <lh class="col-xs-12">
+          <div style="float: left; width: 200px;">Name</div>
+          <div style="float: left; width: 200px;">Company</div>
+          <div style="float: left; width: 200px;">Status</div>
+          <div style="float: left; width: 200px;">Lemlist flag</div>
+        </lh>
+      {{#each l in leads}}
+      {{> lead l=l }}
+      {{/each}}
+    </ul>
+  {{/if}}
+  <br>
+</template>
+
+
+<template name="lead">
+  
+  <li class="col-xs-12"> 
+    <div style="float: left; width: 200px;">{{ l.Name }}</div>
+    <div style="float: left; width: 200px;">{{ l.Company }}</div>    
+    <div style="float: left; width: 200px;">{{ l.Status }}</div>  
+    <div style="float: left; width: 200px;">
+      <input type="checkbox" id = {{ l.Id }} class="lemlist" {{ isChecked l }}/>
+    </div>
+  </li>
+</template>

@@ -1,0 +1,24 @@
+{
+  "name": "meteor_jsforce",
+  "private": true,
+  "scripts": {
+    "start": "meteor --settings .\\settings\\settings-dev.json",
+    "test": "meteor test --once --driver-package meteortesting:mocha --port 3100 --settings .\\settings\\settings-dev.json",
+    "test-app": "TEST_WATCH=1 meteor test --full-app --driver-package meteortesting:mocha --settings .\\settings\\settings-dev.json",
+    "visualize": "meteor --production --extra-packages bundle-visualizer",
+    "lint": "eslint ."
+  },
+  "dependencies": {
+    "@babel/runtime": "^7.3.4",
+    "chai": "^4.2.0",
+    "jsforce": "^1.9.2",
+    "meteor-node-stubs": "^0.4.1"
+  },
+  "meteor": {
+    "mainModule": {
+      "client": "client/main.js",
+      "server": "server/main.js"
+    },
+    "testModule": "tests/main.js"
+  }
+}

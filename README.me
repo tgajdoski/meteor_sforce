@@ -1,0 +1,28 @@
+
+start meteor app:
+npm run start
+
+run tests:
+npm run test
+
+settings-dev.json with credentials in ./settings folder is needed
+
+salesforce login with user pass in settings 
+https://login.salesforce.com/?locale=eu
+
+open Lead lemlist report to check changes:
+https://eu29.lightning.force.com/lightning/o/Lead/list?filterName=00B3X00000BTkMdUAL
+
+
+workflow:
+salesforce lead table extended with leamlist flag - just for testing
+
+click on GET LEADS button 
+Collection lead will be populated with open leads - more filtering needed in production
+
+click on checkbox near the lead will update leamlist flag in lead salesforce table and change the status 
+if checked - status will be 'Working - Contacted' else it will be changed to 'Closed - Not Converted'
+
+permissions must be set on salesforce tables for that user - investigate what will be minimum needed to start campang...
+
+some unit tests exist - but not mocked method - real call to salesforce is triggered...
