@@ -29,49 +29,72 @@ Meteor.methods({
   async getSingleLead(id) {
     let conn = await connectionHandler.getInstance();
     let rawDoc = await conn.sobject('Lead')
-        .findOne({ 'Id' : id });
-    let localDoc =   Leads.findOne({Id : id});
-    
+      .findOne({
+        'Id': id
+      });
+    let localDoc = Leads.findOne({
+      Id: id
+    });
+
     // mongoDB changes - not to call salesforce again and refresh whole list
-    Leads.update({_id: localDoc._id} , {$set: { "Lemlist__c": rawDoc.Lemlist__c, "Status": rawDoc.Status}});
+    Leads.update({
+      _id: localDoc._id
+    }, {
+      $set: {
+        "Lemlist__c": rawDoc.Lemlist__c,
+        "Status": rawDoc.Status
+      }
+    });
   },
 
   async setLemlistFlag(id, val) {
     let conn = await connectionHandler.getInstance();
-    let status  = val ? 'Working - Contacted' : 'Closed - Not Converted';
+    let status = val ? 'Working - Contacted' : 'Closed - Not Converted';
 
-    let rowLead = await conn.sobject('Lead').retrieve(id , function(err, ret) {
-      if (err || !ret.success) { return console.error( err, JSON.stringify(ret))}
+    let rowLead = await conn.sobject('Lead').retrieve(id, function (err, ret) {
+      if (err || !ret.success) {
+        return console.error(err, JSON.stringify(ret))
+      }
     });
 
     await conn.sobject('Lead')
-    .find({ 'Id' : id })
-    .update({'Lemlist__c' : val, 'Status' : status }, function(err, ret) {
-      if (err || !ret.success) { return console.error( err, JSON.stringify(ret))}
-    });
+      .find({
+        'Id': id
+      })
+      .update({
+        'Lemlist__c': val,
+        'Status': status
+      }, function (err, ret) {
+        if (err || !ret.success) {
+          return console.error(err, JSON.stringify(ret))
+        }
+      });
 
     // insert activity
     let subject = `lead ${rowLead.Name} opened the email ${rowLead.Email} of the campaign YYY`
-    await Meteor.call('updateAcivity', subject); 
+    await Meteor.call('updateAcivity', subject);
     // refresh local list
-    await Meteor.call('getSingleLead', id);        
-      // // update whole collection
-      // await Meteor.call('getLeads');
+    await Meteor.call('getSingleLead', id);
+    // // update whole collection
+    // await Meteor.call('getLeads');
   },
 
   async updateAcivity(subject, ) {
     let conn = await connectionHandler.getInstance();
 
     let task = {
-      'OwnerId' : conn.userInfo.id,
-      'Status' : "Completed",
+      'OwnerId': conn.userInfo.id,
+      'Status': "Completed",
       'Subject': subject,
       'Priority': "Normal",
-      'WhatId': "7013X000000jUUTQA2"
+      'WhatId': "7013X000000jUUTQA2",
+      'ActivityDate': new Date()
     }
 
-    await conn.sobject("Task").create(task, function(err, ret) {
-      if (err || !ret.success) { return console.error( err, JSON.stringify(ret))}
+    await conn.sobject("Task").create(task, function (err, ret) {
+      if (err || !ret.success) {
+        return console.error(err, JSON.stringify(ret))
+      }
     });
   },
 });

@@ -2,9 +2,9 @@
   "name": "meteor_sforce",
   "private": true,
   "scripts": {
-    "start": "meteor --settings .\\settings\\settings-dev.json",
-    "test": "meteor test --once --driver-package meteortesting:mocha --port 3100 --settings .\\settings\\settings-dev.json",
-    "test-app": "TEST_WATCH=1 meteor test --full-app --driver-package meteortesting:mocha --settings .\\settings\\settings-dev.json",
+    "start": "meteor --settings ./settings/settings-dev.json",
+    "test": "meteor test --once --driver-package meteortesting:mocha --port 3100 --settings ./settings/settings-dev.json",
+    "test-app": "TEST_WATCH=1 meteor test --full-app --driver-package meteortesting:mocha --settings ./settings/settings-dev.json",
     "visualize": "meteor --production --extra-packages bundle-visualizer",
     "lint": "eslint ."
   },
