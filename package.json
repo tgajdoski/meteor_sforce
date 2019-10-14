@@ -1,5 +1,5 @@
 {
-  "name": "meteor_jsforce",
+  "name": "meteor_sforce",
   "private": true,
   "scripts": {
     "start": "meteor --settings .\\settings\\settings-dev.json",

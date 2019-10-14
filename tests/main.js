@@ -11,7 +11,7 @@ import {
 
 import connectionHandler from '../server/connectionHandler';
 
-describe("meteor_jsforce", function () {
+describe("meteor_sforce", function () {
   beforeEach(function () {
     resetDatabase();
   });
@@ -20,7 +20,7 @@ describe("meteor_jsforce", function () {
     const {
       name
     } = await import("../package.json");
-    assert.strictEqual(name, "meteor_jsforce");
+    assert.strictEqual(name, "meteor_sforce");
   });
 
   if (Meteor.isClient) {
