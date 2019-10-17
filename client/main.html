@@ -8,37 +8,46 @@
 </body>
 
 <template name="hello">
-
+  <p>DropDown will be populated with Lead ListViews</p>
 </template>
 
 <template name="info">
-  <button class="getLeads">Get Leads</button>
+
+  {{#if leadViewsExists}}
+  <select id="leadViews">
+    <option value="" disabled selected>Please Select Lead ListView</option>
+    {{#each lv in leadViews}}
+    <option value="{{lv.id}}">{{lv.label}}</option>
+    {{/each}}
+  </select>
   <br><br>
+  {{/if}}
+
   {{#if leadsExists}}
-    <ul  class="row">
-        <lh class="col-xs-12">
-          <div style="float: left; width: 200px;">Name</div>
-          <div style="float: left; width: 200px;">Company</div>
-          <div style="float: left; width: 200px;">Status</div>
-          <div style="float: left; width: 200px;">Lemlist flag</div>
-        </lh>
-      {{#each l in leads}}
-      {{> lead l=l }}
-      {{/each}}
-    </ul>
+  <ul class="row">
+    <lh class="col-xs-12">
+      <div style="float: left; width: 200px;">Name</div>
+      <div style="float: left; width: 200px;">Company</div>
+      <div style="float: left; width: 200px;">Status</div>
+      <div style="float: left; width: 200px;">Lemlist flag</div>
+    </lh>
+    {{#each l in leads}}
+    {{> lead l=l }}
+    {{/each}}
+  </ul>
   {{/if}}
   <br>
 </template>
 
 
 <template name="lead">
-  
-  <li class="col-xs-12"> 
-    <div style="float: left; width: 200px;">{{ l.Name }}</div>
-    <div style="float: left; width: 200px;">{{ l.Company }}</div>    
-    <div style="float: left; width: 200px;">{{ l.Status }}</div>  
+
+  <li class="col-xs-12">
+    <div style="float: left; width: 200px;">{{ l.Name}}</div>
+    <div style="float: left; width: 200px;">{{ l.Company }}</div>
+    <div style="float: left; width: 200px;">{{ l.Status }}</div>
     <div style="float: left; width: 200px;">
-      <input type="checkbox" id = {{ l.Id }} class="lemlist" {{ isChecked l }}/>
+      <input type="checkbox" id={{ l.Id }} class="lemlist" {{ isChecked l }} />
     </div>
   </li>
 </template>

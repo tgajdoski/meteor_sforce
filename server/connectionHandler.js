@@ -23,8 +23,8 @@ module.exports = {
       //     redirectUri: Meteor.settings.redirectUri
       //   }
       // });
-      
-      await connection.login(Meteor.settings.username, Meteor.settings.pass.concat(Meteor.settings.token), (err, UserInfo) => {
+
+      await connection.login(Meteor.settings.username, Meteor.settings.pass.concat(Meteor.settings.token), err => {
         if (err) {
           return console.error(err);
         }
